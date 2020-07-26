@@ -1,0 +1,51 @@
+//////-Query 1-//////
+
+SELECT g.Name, COUNT(*) total_tracks
+FROM Genre g
+JOIN Track t
+ON g.genreid = t.genreid
+GROUP BY g.Name
+ORDER BY total_tracks DESC
+
+//////-Query 2-//////
+
+SELECT DISTINCT t.Milliseconds,t.Name, t.UnitPrice, COUNT(*) number_of_songs
+FROM MediaType m
+JOIN Track t 
+ON m.MediaTypeId = t.MediaTypeId
+GROUP BY t.Name
+ORDER BY t.Milliseconds DESC
+LIMIT 5
+
+//////-Query 3-//////
+
+SELECT r.artistid, r.name, COUNT(*) songs
+FROM Genre g
+JOIN Track t
+ON g.genreid=t.GenreId
+JOIN Album a 
+ON t.AlbumId = a.AlbumId
+JOIN Artist r
+ON r.ArtistId = a.ArtistId
+GROUP BY r.artistid, r.Name, g.Name
+HAVING g.Name = 'Jazz'
+ORDER BY songs DESC
+LIMIT 10
+
+//////-Query 4-//////
+
+SELECT g.Name, g.GenreId, c.country, SUM(k.Quantity) total_invoices
+FROM Invoice i
+JOIN Customer c
+ON i.customerid = c.CustomerId
+JOIN InvoiceLine k
+ON k.InvoiceId = i.InvoiceId
+JOIN Track t
+ON k.trackid = t.trackid
+JOIN genre g
+on t.genreid = g.GenreId
+GROUP BY c.Country, g.GenreId, g.Name
+ORDER BY total_invoices DESC
+LIMIT 10
+
+
